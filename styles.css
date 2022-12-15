@@ -1,0 +1,20 @@
+:root {
+  --bg: #0d1628;
+  --panel: #16213b;
+  --panel-soft: #1d2b4c;
+  --line: #30456f;
+  --text: #f0ede6;
+  --muted: #b9c1d4;
+  --accent: #cfa34a;
+  --accent-strong: #e4bc64;
+  --editor: #0a1221;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0c1526 0%, #101d35 100%);
