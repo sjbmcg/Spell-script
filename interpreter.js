@@ -54,3 +54,59 @@ class EndlessTokenizer {
         /"[^"]*"|>=|<=|==|!=|\|\||&&|[()=+\-*/<>!]|[A-Za-z_][A-Za-z0-9_]*|\d+(?:\.\d+)?/g
       ) || []
     );
+  }
+}
+
+class ExpressionParser {
+  constructor(tokens, lineNumber) {
+    this.tokens = tokens;
+    this.index = 0;
+    this.lineNumber = lineNumber;
+  }
+
+  parse() {
+    if (!this.tokens.length) {
+      throw new Error(`Line ${this.lineNumber}: expected an expression.`);
+    }
+
+    const expression = this.parseLogicalOr();
+
+    if (this.index < this.tokens.length) {
+      throw new Error(`Line ${this.lineNumber}: unexpected token "${this.peek()}".`);
+    }
+
+    return expression;
+  }
+
+  peek() {
+    return this.tokens[this.index];
+  }
+
+  consume() {
+    const token = this.tokens[this.index];
+    this.index += 1;
+    return token;
+  }
+
+  match(...choices) {
+    const token = this.peek();
+
+    if (choices.includes(token)) {
+      this.consume();
+      return token;
+    }
+
+    return null;
+  }
+
+  parseLogicalOr() {
+    let expression = this.parseLogicalAnd();
+
+    while (this.match("||")) {
+      expression = {
+        type: "binary",
+        operator: "||",
+        left: expression,
+        right: this.parseLogicalAnd()
+      };
+    }
