@@ -110,3 +110,59 @@ class ExpressionParser {
         right: this.parseLogicalAnd()
       };
     }
+
+    return expression;
+  }
+
+  parseLogicalAnd() {
+    let expression = this.parseEquality();
+
+    while (this.match("&&")) {
+      expression = {
+        type: "binary",
+        operator: "&&",
+        left: expression,
+        right: this.parseEquality()
+      };
+    }
+
+    return expression;
+  }
+
+  parseEquality() {
+    let expression = this.parseComparison();
+    let operator = this.match("==", "!=");
+
+    while (operator) {
+      expression = {
+        type: "binary",
+        operator,
+        left: expression,
+        right: this.parseComparison()
+      };
+      operator = this.match("==", "!=");
+    }
+
+    return expression;
+  }
+
+  parseComparison() {
+    let expression = this.parseTerm();
+    let operator = this.match(">", "<", ">=", "<=");
+
+    while (operator) {
+      expression = {
+        type: "binary",
+        operator,
+        left: expression,
+        right: this.parseTerm()
+      };
+      operator = this.match(">", "<", ">=", "<=");
+    }
+
+    return expression;
+  }
+
+  parseTerm() {
+    let expression = this.parseFactor();
+    let operator = this.match("+", "-");
