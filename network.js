@@ -31,3 +31,37 @@ function setupNetwork() {
           highlight: {
             border: "#f1cf7b",
             background: "#223358"
+          }
+        },
+        font: {
+          color: "#f4efe4",
+          face: "Trebuchet MS",
+          size: 16
+        }
+      },
+      edges: {
+        color: "#cfa34a",
+        smooth: false,
+        arrows: { to: true }
+      },
+      layout: {
+        hierarchical: {
+          direction: "DU",
+          sortMethod: "directed",
+          levelSeparation: 120,
+          nodeSpacing: 90,
+          treeSpacing: 150
+        }
+      },
+      physics: false
+    }
+  );
+
+  network.on("selectNode", (params) => {
+    if (selectionHandler && params.nodes.length) {
+      selectionHandler(params.nodes[0]);
+    }
+  });
+}
+
+function renderFallback(program) {
