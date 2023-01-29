@@ -166,3 +166,60 @@ class ExpressionParser {
   parseTerm() {
     let expression = this.parseFactor();
     let operator = this.match("+", "-");
+
+    while (operator) {
+      expression = {
+        type: "binary",
+        operator,
+        left: expression,
+        right: this.parseFactor()
+      };
+      operator = this.match("+", "-");
+    }
+
+    return expression;
+  }
+
+  parseFactor() {
+    let expression = this.parseUnary();
+    let operator = this.match("*", "/");
+
+    while (operator) {
+      expression = {
+        type: "binary",
+        operator,
+        left: expression,
+        right: this.parseUnary()
+      };
+      operator = this.match("*", "/");
+    }
+
+    return expression;
+  }
+
+  parseUnary() {
+    const operator = this.match("!", "-");
+
+    if (operator) {
+      return {
+        type: "unary",
+        operator,
+        value: this.parseUnary()
+      };
+    }
+
+    if (this.match("warp")) {
+      const spellName = this.consume();
+
+      if (!ExpressionParser.isIdentifier(spellName)) {
+        throw new Error(`Line ${this.lineNumber}: warp must be followed by a spell name.`);
+      }
+
+      return {
+        type: "call",
+        spellName
+      };
+    }
+
+    return this.parsePrimary();
+  }
