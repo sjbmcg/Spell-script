@@ -58,3 +58,24 @@ button {
   padding: 11px 16px;
   border: 1px solid var(--accent);
   border-radius: 10px;
+  background: var(--accent);
+  color: #111924;
+  font: inherit;
+  cursor: pointer;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.panel-heading h2,
