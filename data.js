@@ -9,3 +9,9 @@ spell main
   loot gold
 end
 
+spell bank
+  say "Visiting Aeven bank."
+  loot "bank done"
+end
+
+spell sewer
