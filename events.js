@@ -34,3 +34,21 @@
 
     const localsText = spell.locals.length ? spell.locals.join(", ") : "none";
     const callsText = spell.calls.length ? spell.calls.join(", ") : "none";
+    selectedSpell.textContent = spell.name;
+    selectedSummary.textContent = `Locals: ${localsText}. Calls: ${callsText}.`;
+  }
+
+  function showExpressionInfo() {
+    selectedSpell.textContent = "Expression mode";
+    selectedSummary.textContent =
+      "Type maths like 1+1 or build functions with hero, spell, warp, and loot.";
+  }
+
+  function renderProgram(program) {
+    latestProgram = program;
+    window.FunctionMap.render(program);
+    showSpellInfo(program.entrySpell);
+    window.FunctionMap.select(program.entrySpell);
+  }
+
+  function runCode() {
