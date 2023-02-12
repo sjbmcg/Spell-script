@@ -65,3 +65,36 @@ function setupNetwork() {
 }
 
 function renderFallback(program) {
+  mapContainer.className = "fallback-map";
+  mapContainer.innerHTML = "";
+
+  if (!program) {
+    return;
+  }
+
+  program.spells.forEach((spell) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "fallback-node";
+    button.textContent = spell.calls.length
+      ? `${spell.name} -> ${spell.calls.join(", ")}`
+      : spell.name;
+    button.addEventListener("click", () => {
+      if (selectionHandler) {
+        selectionHandler(spell.name);
+      }
+    });
+    mapContainer.appendChild(button);
+  });
+}
+
+if (window.vis && window.vis.DataSet && window.vis.Network) {
+  setupNetwork();
+}
+
+window.FunctionMap = {
+  render(program) {
+    latestProgram = program;
+
+    if (!network) {
+      renderFallback(program);
