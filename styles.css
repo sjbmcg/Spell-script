@@ -79,3 +79,23 @@ button {
 }
 
 .panel-heading h2,
+.output-panel h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.panel-heading p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+#tree {
+  height: 360px;
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #10192d;
+  overflow: hidden;
+}
+
