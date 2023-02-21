@@ -279,3 +279,59 @@ class EndlessParser {
     };
 
     while (!this.isAtEnd()) {
+      const line = this.peekLine();
+      const keyword = line.tokens[0];
+
+      if (keyword === "hero") {
+        program.entrySpell = this.readName(line, 1, "hero");
+        this.index += 1;
+        continue;
+      }
+
+      if (keyword === "spell") {
+        const spell = this.parseSpell();
+        if (program.spellsByName[spell.name]) {
+          throw new Error(`Line ${spell.lineNumber}: spell "${spell.name}" is already defined.`);
+        }
+        program.spells.push(spell);
+        program.spellsByName[spell.name] = spell;
+        continue;
+      }
+
+      throw new Error(`Line ${line.lineNumber}: expected hero or spell but found "${keyword}".`);
+    }
+
+    if (!program.spells.length) {
+      throw new Error("Write at least one spell.");
+    }
+
+    if (!program.entrySpell) {
+      program.entrySpell = program.spells[0].name;
+    }
+
+    if (!program.spellsByName[program.entrySpell]) {
+      throw new Error(`The hero spell "${program.entrySpell}" has not been defined.`);
+    }
+
+    return program;
+  }
+
+  parseSpell() {
+    const header = this.consumeLine();
+    const spellName = this.readName(header, 1, "spell");
+    const locals = new Set();
+    const calls = new Set();
+    const spell = {
+      name: spellName,
+      body: [],
+      locals: [],
+      calls: [],
+      lineNumber: header.lineNumber
+    };
+
+    while (!this.isAtEnd()) {
+      const line = this.peekLine();
+      const keyword = line.tokens[0];
+
+      if (keyword === "end") {
+        this.index += 1;
