@@ -52,3 +52,21 @@
   }
 
   function runCode() {
+    const source = codingSpace.value;
+
+    try {
+      const report = window.EndlessLab.run(source);
+
+      if (report.mode === "script") {
+        renderProgram(report.program);
+        resultBox.textContent = `Result: ${window.EndlessLab.formatValue(report.lastLoot)}`;
+        statusBanner.textContent = `Status: running ${report.program.spells.length} spell${report.program.spells.length === 1 ? "" : "s"}`;
+        outputLog.textContent = [
+          ...(report.output.length ? report.output : ["No say output."]),
+          `Return: ${window.EndlessLab.formatValue(report.lastLoot)}`
+        ].join("\n");
+        return;
+      }
+
+      latestProgram = null;
+      window.FunctionMap.clear();
