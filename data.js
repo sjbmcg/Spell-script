@@ -15,3 +15,8 @@ spell bank
 end
 
 spell sewer
+  say "Clearing the sewer."
+  loot 72
+end`;
+
+const keywordHints = [
