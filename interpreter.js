@@ -335,3 +335,59 @@ class EndlessParser {
 
       if (keyword === "end") {
         this.index += 1;
+        spell.locals = Array.from(locals);
+        spell.calls = Array.from(calls);
+        return spell;
+      }
+
+      spell.body.push(this.parseStatement(locals, calls));
+    }
+
+    throw new Error(`Line ${header.lineNumber}: spell "${spellName}" is missing an end.`);
+  }
+
+  parseStatement(locals, calls) {
+    const line = this.consumeLine();
+    const keyword = line.tokens[0];
+
+    if (keyword === "stash") {
+      const name = this.readName(line, 1, "stash");
+      this.expectToken(line, 2, "=");
+      const expression = this.parseExpression(line.tokens.slice(3), line.lineNumber, calls);
+      locals.add(name);
+      return {
+        type: "stash",
+        name,
+        expression,
+        lineNumber: line.lineNumber
+      };
+    }
+
+    if (keyword === "say" || keyword === "loot") {
+      return {
+        type: keyword,
+        expression: this.parseExpression(line.tokens.slice(1), line.lineNumber, calls),
+        lineNumber: line.lineNumber
+      };
+    }
+
+    if (keyword === "warp") {
+      const spellName = this.readName(line, 1, "warp");
+      calls.add(spellName);
+      return {
+        type: "warp",
+        spellName,
+        lineNumber: line.lineNumber
+      };
+    }
+
+    throw new Error(`Line ${line.lineNumber}: "${keyword}" is not valid in this basic version.`);
+  }
+
+  parseExpression(tokens, lineNumber, calls) {
+    const expression = new ExpressionParser(tokens, lineNumber).parse();
+    EndlessParser.collectCalls(expression, calls);
+    return expression;
+  }
+
+  readName(line, index, owner) {
