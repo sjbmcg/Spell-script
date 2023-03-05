@@ -99,3 +99,23 @@ button {
   overflow: hidden;
 }
 
+#tree.fallback-map {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  overflow: auto;
+}
+
+.fallback-node {
+  width: 100%;
+  text-align: left;
+  background: var(--panel-soft);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.spell-card {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--line);
