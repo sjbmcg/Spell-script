@@ -98,3 +98,37 @@ window.FunctionMap = {
 
     if (!network) {
       renderFallback(program);
+      return;
+    }
+
+    mapContainer.className = "";
+    nodes.clear();
+    edges.clear();
+
+    if (!program) {
+      return;
+    }
+
+    program.spells.forEach((spell) => {
+      nodes.add({
+        id: spell.name,
+        label: spell.name,
+        title: spell.locals.length
+          ? `Locals: ${spell.locals.join(", ")}`
+          : "No locals"
+      });
+
+      spell.calls.forEach((callName) => {
+        edges.add({
+          from: spell.name,
+          to: callName
+        });
+      });
+    });
+  },
+
+  clear() {
+    latestProgram = null;
+
+    if (!network) {
+      mapContainer.className = "fallback-map";
