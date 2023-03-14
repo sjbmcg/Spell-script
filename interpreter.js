@@ -391,3 +391,60 @@ class EndlessParser {
   }
 
   readName(line, index, owner) {
+    const token = line.tokens[index];
+
+    if (!ExpressionParser.isIdentifier(token)) {
+      throw new Error(`Line ${line.lineNumber}: ${owner} must be followed by a name.`);
+    }
+
+    return token;
+  }
+
+  expectToken(line, index, expected) {
+    if (line.tokens[index] !== expected) {
+      throw new Error(`Line ${line.lineNumber}: expected "${expected}".`);
+    }
+  }
+
+  consumeLine() {
+    const line = this.lines[this.index];
+    this.index += 1;
+    return line;
+  }
+
+  peekLine() {
+    return this.lines[this.index];
+  }
+
+  isAtEnd() {
+    return this.index >= this.lines.length;
+  }
+
+  static collectCalls(expression, calls) {
+    if (!expression) {
+      return;
+    }
+
+    if (expression.type === "call") {
+      calls.add(expression.spellName);
+      return;
+    }
+
+    if (expression.type === "binary") {
+      EndlessParser.collectCalls(expression.left, calls);
+      EndlessParser.collectCalls(expression.right, calls);
+      return;
+    }
+
+    if (expression.type === "unary") {
+      EndlessParser.collectCalls(expression.value, calls);
+    }
+  }
+}
+
+class EndlessInterpreter {
+  constructor(program) {
+    this.program = program;
+    this.output = [];
+    this.callDepth = 0;
+  }
