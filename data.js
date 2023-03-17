@@ -20,3 +20,9 @@ spell sewer
 end`;
 
 const keywordHints = [
+  { word: "1+1", summary: "plain expressions still work" },
+  { word: "hero", summary: "the first spell to run" },
+  { word: "spell", summary: "defines a function" },
+  { word: "stash", summary: "stores a value in a variable" },
+  { word: "say", summary: "prints to the output box" },
+  { word: "warp", summary: "calls another spell" },
