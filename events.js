@@ -70,3 +70,21 @@
 
       latestProgram = null;
       window.FunctionMap.clear();
+      showExpressionInfo();
+      resultBox.textContent = `Result: ${window.EndlessLab.formatValue(report.result)}`;
+      statusBanner.textContent = "Status: expression mode";
+      outputLog.textContent = `Return: ${window.EndlessLab.formatValue(report.result)}`;
+    } catch (error) {
+      latestProgram = null;
+      window.FunctionMap.clear();
+      showSpellInfo(null);
+      resultBox.textContent = "Result: waiting";
+      statusBanner.textContent = `Status: ${error.message}`;
+      outputLog.textContent = `Error: ${error.message}`;
+    }
+  }
+
+  window.FunctionMap.setSelectionHandler((spellName) => {
+    showSpellInfo(spellName);
+  });
+
