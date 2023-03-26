@@ -448,3 +448,59 @@ class EndlessInterpreter {
     this.output = [];
     this.callDepth = 0;
   }
+
+  run() {
+    return {
+      program: this.program,
+      output: this.output,
+      lastLoot: this.executeSpell(this.program.entrySpell)
+    };
+  }
+
+  executeSpell(spellName) {
+    const spell = this.program.spellsByName[spellName];
+
+    if (!spell) {
+      throw new Error(`Spell "${spellName}" does not exist.`);
+    }
+
+    this.callDepth += 1;
+
+    if (this.callDepth > 20) {
+      throw new Error("Too many nested warps.");
+    }
+
+    const scope = {};
+
+    try {
+      for (const statement of spell.body) {
+        const result = this.executeStatement(statement, scope);
+
+        if (result.returned) {
+          return result.value;
+        }
+      }
+
+      return null;
+    } finally {
+      this.callDepth -= 1;
+    }
+  }
+
+  executeStatement(statement, scope) {
+    if (statement.type === "stash") {
+      scope[statement.name] = this.evaluateExpression(statement.expression, scope);
+      return { returned: false, value: null };
+    }
+
+    if (statement.type === "say") {
+      this.output.push(String(this.evaluateExpression(statement.expression, scope)));
+      return { returned: false, value: null };
+    }
+
+    if (statement.type === "warp") {
+      this.executeSpell(statement.spellName);
+      return { returned: false, value: null };
+    }
+
+    if (statement.type === "loot") {
