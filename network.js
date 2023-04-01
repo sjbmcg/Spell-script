@@ -132,3 +132,37 @@ window.FunctionMap = {
 
     if (!network) {
       mapContainer.className = "fallback-map";
+      mapContainer.innerHTML = "";
+      return;
+    }
+
+    nodes.clear();
+    edges.clear();
+  },
+
+  select(spellName) {
+    if (!spellName) {
+      return;
+    }
+
+    if (!network) {
+      if (selectionHandler) {
+        selectionHandler(spellName);
+      }
+      return;
+    }
+
+    network.selectNodes([spellName]);
+    network.focus(spellName, {
+      scale: 1,
+      animation: {
+        duration: 200,
+        easingFunction: "easeInOutQuad"
+      }
+    });
+  },
+
+  setSelectionHandler(handler) {
+    selectionHandler = handler;
+  }
+};
