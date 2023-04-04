@@ -504,3 +504,59 @@ class EndlessInterpreter {
     }
 
     if (statement.type === "loot") {
+      return {
+        returned: true,
+        value: this.evaluateExpression(statement.expression, scope)
+      };
+    }
+
+    throw new Error(`Unknown statement type "${statement.type}".`);
+  }
+
+  evaluateExpression(expression, scope) {
+    return evaluateAst(expression, scope, {
+      executeSpell: (spellName) => this.executeSpell(spellName)
+    });
+  }
+}
+
+function evaluateAst(expression, scope, runtime) {
+  if (expression.type === "literal") {
+    return expression.value;
+  }
+
+  if (expression.type === "identifier") {
+    if (!(expression.name in scope)) {
+      throw new Error(`"${expression.name}" has not been stashed yet.`);
+    }
+    return scope[expression.name];
+  }
+
+  if (expression.type === "call") {
+    if (!runtime || typeof runtime.executeSpell !== "function") {
+      throw new Error('warp only works when you define spells.');
+    }
+    return runtime.executeSpell(expression.spellName);
+  }
+
+  if (expression.type === "unary") {
+    const value = evaluateAst(expression.value, scope, runtime);
+
+    if (expression.operator === "!") {
+      return !value;
+    }
+
+    if (expression.operator === "-") {
+      return -value;
+    }
+  }
+
+  if (expression.type === "binary") {
+    const left = evaluateAst(expression.left, scope, runtime);
+    const right = evaluateAst(expression.right, scope, runtime);
+
+    if (expression.operator === "+") {
+      return typeof left === "string" || typeof right === "string"
+        ? `${left}${right}`
+        : left + right;
+    }
