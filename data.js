@@ -26,3 +26,9 @@ const keywordHints = [
   { word: "stash", summary: "stores a value in a variable" },
   { word: "say", summary: "prints to the output box" },
   { word: "warp", summary: "calls another spell" },
+  { word: "loot", summary: "returns a value" },
+  { word: "end", summary: "closes a spell" }
+];
+
+window.starterProgram = starterProgram;
+window.keywordHints = keywordHints;
