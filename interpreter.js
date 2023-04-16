@@ -560,3 +560,59 @@ function evaluateAst(expression, scope, runtime) {
         ? `${left}${right}`
         : left + right;
     }
+
+    if (expression.operator === "-") {
+      return left - right;
+    }
+
+    if (expression.operator === "*") {
+      return left * right;
+    }
+
+    if (expression.operator === "/") {
+      return left / right;
+    }
+
+    if (expression.operator === ">") {
+      return left > right;
+    }
+
+    if (expression.operator === "<") {
+      return left < right;
+    }
+
+    if (expression.operator === ">=") {
+      return left >= right;
+    }
+
+    if (expression.operator === "<=") {
+      return left <= right;
+    }
+
+    if (expression.operator === "==") {
+      return left === right;
+    }
+
+    if (expression.operator === "!=") {
+      return left !== right;
+    }
+
+    if (expression.operator === "&&") {
+      return Boolean(left && right);
+    }
+
+    if (expression.operator === "||") {
+      return Boolean(left || right);
+    }
+  }
+
+  throw new Error("Could not evaluate that expression.");
+}
+
+function evaluateExpressionSource(source) {
+  const tokens = EndlessTokenizer.tokenizeExpression(source);
+
+  if (!tokens.length) {
+    throw new Error("Type an expression or some spell code.");
+  }
+
