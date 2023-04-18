@@ -88,3 +88,21 @@
     showSpellInfo(spellName);
   });
 
+  loadSampleButton.addEventListener("click", () => {
+    codingSpace.value = window.starterProgram;
+    runCode();
+  });
+
+  runButton.addEventListener("click", () => {
+    runCode();
+  });
+
+  codingSpace.addEventListener("input", () => {
+    window.clearTimeout(inputTimer);
+    inputTimer = window.setTimeout(runCode, 120);
+  });
+
+  renderHints();
+  codingSpace.value = window.starterProgram;
+  runCode();
+})();
