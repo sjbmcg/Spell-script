@@ -180,3 +180,23 @@ button {
   border-radius: 12px;
   background: var(--panel-soft);
 }
+
+.output-panel {
+  margin-top: 14px;
+}
+
+#output-log {
+  min-height: 150px;
+  margin: 12px 0 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #10192d;
+  color: #9fd2be;
+  white-space: pre-wrap;
+  font-family: Consolas, monospace;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .topbar,
