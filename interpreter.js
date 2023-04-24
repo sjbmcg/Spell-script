@@ -616,3 +616,60 @@ function evaluateExpressionSource(source) {
     throw new Error("Type an expression or some spell code.");
   }
 
+  const expression = new ExpressionParser(tokens, 1).parse();
+  return evaluateAst(expression, {}, null);
+}
+
+const EndlessLab = {
+  looksLikeProgram(source) {
+    return /^\s*(hero|spell|stash|say|warp|loot|end)\b/m.test(source);
+  },
+
+  compile(source) {
+    return new EndlessParser(source).parse();
+  },
+
+  run(source) {
+    if (EndlessLab.looksLikeProgram(source)) {
+      const program = EndlessLab.compile(source);
+      const report = new EndlessInterpreter(program).run();
+      return {
+        mode: "script",
+        program: report.program,
+        output: report.output,
+        lastLoot: report.lastLoot,
+        result: report.lastLoot
+      };
+    }
+
+    const result = evaluateExpressionSource(source);
+    return {
+      mode: "expression",
+      output: [],
+      lastLoot: result,
+      result
+    };
+  },
+
+  evaluate(source) {
+    return evaluateExpressionSource(source);
+  },
+
+  formatValue(value) {
+    if (typeof value === "string") {
+      return `"${value}"`;
+    }
+
+    if (typeof value === "boolean") {
+      return value ? "ember" : "frost";
+    }
+
+    if (value === null || value === undefined) {
+      return "nothing";
+    }
+
+    return String(value);
+  }
+};
+
+window.EndlessLab = EndlessLab;
