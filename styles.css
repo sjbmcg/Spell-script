@@ -200,3 +200,24 @@ button {
 
 @media (max-width: 900px) {
   .topbar,
+  .workspace {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions button {
+    flex: 1;
+  }
+
+  .workspace {
+    display: grid;
+  }
+
+  .status-row {
+    grid-template-columns: 1fr;
+  }
+}
