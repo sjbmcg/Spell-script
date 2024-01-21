@@ -1,4 +1,4 @@
-const ENDLESS_KEYWORDS = ["hero", "spell", "stash", "say", "warp", "loot", "end", "ember", "frost"];
+const ENDLESS_KEYWORDS = ["hero", "spell", "stash", "say", "warp", "loot", "ifso", "otherwise", "end", "ember", "frost"];
 
 class EndlessTokenizer {
   static stripComment(line) {
@@ -329,21 +329,16 @@ class EndlessParser {
       lineNumber: header.lineNumber
     };
 
-    while (!this.isAtEnd()) {
-      const line = this.peekLine();
-      const keyword = line.tokens[0];
+    spell.body = this.parseStatements(locals, calls, ["end"]);
 
-      if (keyword === "end") {
-        this.index += 1;
-        spell.locals = Array.from(locals);
-        spell.calls = Array.from(calls);
-        return spell;
-      }
-
-      spell.body.push(this.parseStatement(locals, calls));
+    if (this.isAtEnd() || this.peekLine().tokens[0] !== "end") {
+      throw new Error(`Line ${header.lineNumber}: spell "${spellName}" is missing an end.`);
     }
 
-    throw new Error(`Line ${header.lineNumber}: spell "${spellName}" is missing an end.`);
+    this.index += 1;
+    spell.locals = Array.from(locals);
+    spell.calls = Array.from(calls);
+    return spell;
   }
 
   parseStatement(locals, calls) {
@@ -381,7 +376,48 @@ class EndlessParser {
       };
     }
 
+    if (keyword === "ifso") {
+      const condition = this.parseExpression(line.tokens.slice(1), line.lineNumber, calls);
+      const thenBody = this.parseStatements(locals, calls, ["otherwise", "end"]);
+      let elseBody = [];
+
+      if (!this.isAtEnd() && this.peekLine().tokens[0] === "otherwise") {
+        this.index += 1;
+        elseBody = this.parseStatements(locals, calls, ["end"]);
+      }
+
+      if (this.isAtEnd() || this.peekLine().tokens[0] !== "end") {
+        throw new Error(`Line ${line.lineNumber}: ifso is missing an end.`);
+      }
+
+      this.index += 1;
+
+      return {
+        type: "ifso",
+        condition,
+        thenBody,
+        elseBody,
+        lineNumber: line.lineNumber
+      };
+    }
+
     throw new Error(`Line ${line.lineNumber}: "${keyword}" is not valid in this basic version.`);
+  }
+
+  parseStatements(locals, calls, stopKeywords) {
+    const statements = [];
+
+    while (!this.isAtEnd()) {
+      const keyword = this.peekLine().tokens[0];
+
+      if (stopKeywords.includes(keyword)) {
+        return statements;
+      }
+
+      statements.push(this.parseStatement(locals, calls));
+    }
+
+    return statements;
   }
 
   parseExpression(tokens, lineNumber, calls) {
@@ -510,6 +546,22 @@ class EndlessInterpreter {
       };
     }
 
+    if (statement.type === "ifso") {
+      const branch = this.evaluateExpression(statement.condition, scope)
+        ? statement.thenBody
+        : statement.elseBody;
+
+      for (const branchStatement of branch) {
+        const result = this.executeStatement(branchStatement, scope);
+
+        if (result.returned) {
+          return result;
+        }
+      }
+
+      return { returned: false, value: null };
+    }
+
     throw new Error(`Unknown statement type "${statement.type}".`);
   }
 
@@ -622,7 +674,7 @@ function evaluateExpressionSource(source) {
 
 const EndlessLab = {
   looksLikeProgram(source) {
-    return /^\s*(hero|spell|stash|say|warp|loot|end)\b/m.test(source);
+    return /^\s*(hero|spell|stash|say|warp|loot|ifso|otherwise|end)\b/m.test(source);
   },
 
   compile(source) {
