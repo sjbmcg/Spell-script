@@ -5,7 +5,11 @@ spell main
   say "Logging into Endless Online as " + player
   warp bank
   stash gold = warp sewer
-  say "Gold found: " + gold
+  ifso gold >= 50
+    say "Gold found: " + gold
+  otherwise
+    say "Not enough gold yet."
+  end
   loot gold
 end
 
@@ -26,6 +30,8 @@ const keywordHints = [
   { word: "stash", summary: "stores a value in a variable" },
   { word: "say", summary: "prints to the output box" },
   { word: "warp", summary: "calls another spell" },
+  { word: "ifso", summary: "runs code when a condition is true" },
+  { word: "otherwise", summary: "runs when the condition is false" },
   { word: "loot", summary: "returns a value" },
   { word: "end", summary: "closes a spell" }
 ];
