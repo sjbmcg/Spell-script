@@ -1,5 +1,7 @@
 (() => {
+  const root = document.documentElement;
   const codingSpace = document.getElementById("coding-space");
+  const themeToggleButton = document.getElementById("theme-toggle");
   const loadSampleButton = document.getElementById("load-sample");
   const runButton = document.getElementById("run-spellbook");
   const resultBox = document.getElementById("result");
@@ -11,6 +13,32 @@
 
   let latestProgram = null;
   let inputTimer = null;
+
+  function readSavedTheme() {
+    try {
+      return window.localStorage.getItem("endless-theme");
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveTheme(theme) {
+    try {
+      window.localStorage.setItem("endless-theme", theme);
+    } catch (error) {
+      // Ignore storage failures and keep the theme in memory only.
+    }
+  }
+
+  function applyTheme(theme) {
+    const nextTheme = theme === "dark" ? "dark" : "light";
+    root.setAttribute("data-theme", nextTheme);
+    themeToggleButton.textContent = nextTheme === "dark" ? "Light mode" : "Dark mode";
+
+    if (window.FunctionMap && typeof window.FunctionMap.refreshTheme === "function") {
+      window.FunctionMap.refreshTheme();
+    }
+  }
 
   function renderHints() {
     keywordHintsContainer.innerHTML = "";
@@ -93,6 +121,12 @@
     runCode();
   });
 
+  themeToggleButton.addEventListener("click", () => {
+    const nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(nextTheme);
+    saveTheme(nextTheme);
+  });
+
   runButton.addEventListener("click", () => {
     runCode();
   });
@@ -102,6 +136,7 @@
     inputTimer = window.setTimeout(runCode, 120);
   });
 
+  applyTheme(readSavedTheme() || "light");
   renderHints();
   codingSpace.value = window.starterProgram;
   runCode();
