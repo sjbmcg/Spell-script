@@ -114,7 +114,8 @@ body {
 
 .brand-block,
 .actions,
-.keyword-hints {
+.page-switcher,
+.keyword-list {
   display: flex;
 }
 
@@ -125,6 +126,12 @@ body {
 
 .actions {
   gap: 10px;
+}
+
+.page-switcher,
+.docs-layout,
+.keyword-list {
+  gap: 16px;
 }
 
 .moon-logo {
@@ -213,6 +220,36 @@ button:focus-visible {
   color: var(--heading);
 }
 
+.page-switcher {
+  margin-top: 16px;
+}
+
+.tab-button {
+  min-width: 120px;
+  background: var(--surface-soft);
+  color: var(--heading);
+  box-shadow: none;
+}
+
+.tab-button:hover {
+  background: var(--surface-strong);
+  box-shadow: var(--button-shadow);
+}
+
+.tab-button.is-active {
+  background: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: var(--button-shadow);
+}
+
+.tab-button.is-active:hover {
+  background: var(--button-bg-hover);
+}
+
+.page-view[hidden] {
+  display: none !important;
+}
+
 .workspace {
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -235,7 +272,6 @@ button:focus-visible {
 
 #tree,
 .spell-card,
-.hint-chip,
 #coding-space,
 .status-card,
 #output-log,
@@ -260,7 +296,6 @@ button:focus-visible {
 
 .fallback-node,
 .spell-card,
-.hint-chip,
 .status-card {
   background: var(--surface-soft);
 }
@@ -284,19 +319,6 @@ button:focus-visible {
 .spell-card h3 {
   margin: 0 0 8px;
   color: var(--heading);
-}
-
-.keyword-hints {
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.hint-chip {
-  padding: 7px 11px;
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.9rem;
 }
 
 #coding-space,
@@ -345,6 +367,45 @@ button:focus-visible {
   white-space: pre-wrap;
 }
 
+.docs-view {
+  margin-top: 16px;
+}
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.docs-card {
+  padding: 22px;
+}
+
+.docs-card h2,
+.keyword-item h3 {
+  margin: 0;
+  color: var(--heading);
+  font-family: var(--font-display);
+}
+
+.docs-card p,
+.keyword-item p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.keyword-list {
+  flex-direction: column;
+  margin-top: 16px;
+}
+
+.keyword-item {
+  padding: 14px 16px;
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  background: var(--surface-soft);
+}
+
 @media (max-width: 900px) {
   .topbar,
   .brand-block,
@@ -353,7 +414,8 @@ button:focus-visible {
   }
 
   .workspace,
-  .status-row {
+  .status-row,
+  .docs-layout {
     grid-template-columns: 1fr;
   }
 
@@ -364,5 +426,13 @@ button:focus-visible {
 
   .brand-block {
     align-items: flex-start;
+  }
+
+  .page-switcher {
+    flex-wrap: wrap;
+  }
+
+  .tab-button {
+    width: 100%;
   }
 }

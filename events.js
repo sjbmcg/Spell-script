@@ -4,12 +4,16 @@
   const themeToggleButton = document.getElementById("theme-toggle");
   const loadSampleButton = document.getElementById("load-sample");
   const runButton = document.getElementById("run-spellbook");
+  const labTabButton = document.getElementById("show-lab");
+  const infoTabButton = document.getElementById("show-info");
+  const labView = document.getElementById("lab-view");
+  const infoView = document.getElementById("info-view");
   const resultBox = document.getElementById("result");
   const statusBanner = document.getElementById("status-banner");
   const outputLog = document.getElementById("output-log");
   const selectedSpell = document.getElementById("selected-spell");
   const selectedSummary = document.getElementById("selected-summary");
-  const keywordHintsContainer = document.getElementById("keyword-hints");
+  const docsKeywordsContainer = document.getElementById("docs-keywords");
 
   let latestProgram = null;
   let inputTimer = null;
@@ -41,14 +45,38 @@
   }
 
   function renderHints() {
-    keywordHintsContainer.innerHTML = "";
+    docsKeywordsContainer.innerHTML = "";
 
     window.keywordHints.forEach((item) => {
-      const hint = document.createElement("div");
-      hint.className = "hint-chip";
-      hint.textContent = `${item.word}: ${item.summary}`;
-      keywordHintsContainer.appendChild(hint);
+      const hint = document.createElement("article");
+      const title = document.createElement("h3");
+      const summary = document.createElement("p");
+
+      hint.className = "keyword-item";
+      title.textContent = item.word;
+      summary.textContent = item.summary;
+
+      hint.appendChild(title);
+      hint.appendChild(summary);
+      docsKeywordsContainer.appendChild(hint);
     });
+  }
+
+  function setView(viewName) {
+    const showLab = viewName !== "info";
+
+    labTabButton.classList.toggle("is-active", showLab);
+    infoTabButton.classList.toggle("is-active", !showLab);
+    labTabButton.setAttribute("aria-selected", showLab ? "true" : "false");
+    infoTabButton.setAttribute("aria-selected", showLab ? "false" : "true");
+    labView.hidden = !showLab;
+    infoView.hidden = showLab;
+    labView.classList.toggle("is-active", showLab);
+    infoView.classList.toggle("is-active", !showLab);
+
+    if (showLab && latestProgram) {
+      renderProgram(latestProgram);
+    }
   }
 
   function showSpellInfo(spellName) {
@@ -117,6 +145,7 @@
   });
 
   loadSampleButton.addEventListener("click", () => {
+    setView("lab");
     codingSpace.value = window.starterProgram;
     runCode();
   });
@@ -128,7 +157,16 @@
   });
 
   runButton.addEventListener("click", () => {
+    setView("lab");
     runCode();
+  });
+
+  labTabButton.addEventListener("click", () => {
+    setView("lab");
+  });
+
+  infoTabButton.addEventListener("click", () => {
+    setView("info");
   });
 
   codingSpace.addEventListener("input", () => {
@@ -138,6 +176,7 @@
 
   applyTheme(readSavedTheme() || "light");
   renderHints();
+  setView("lab");
   codingSpace.value = window.starterProgram;
   runCode();
 })();

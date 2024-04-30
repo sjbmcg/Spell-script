@@ -14,7 +14,7 @@
         <div class="moon-logo" aria-hidden="true"></div>
         <div>
           <h1>Endless Script Lab</h1>
-          <p>Type `1+1` for a quick result, or use simple Endless-flavoured function code where `spell` makes a function, `warp` calls it, and `loot` returns a value.</p>
+          <p>Type `1+1` for a quick result, or use simple Endless-flavoured function code in the lab and open the Info tab for the core words.</p>
         </div>
       </div>
       <div class="actions">
@@ -24,7 +24,12 @@
       </div>
     </header>
 
-    <main class="workspace">
+    <div class="page-switcher" role="tablist" aria-label="Workspace pages">
+      <button id="show-lab" class="tab-button is-active" type="button" role="tab" aria-selected="true" aria-controls="lab-view">Lab</button>
+      <button id="show-info" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="info-view">Info</button>
+    </div>
+
+    <main id="lab-view" class="workspace page-view is-active" role="tabpanel" aria-labelledby="show-lab">
       <section class="panel tree-panel">
         <div class="panel-heading">
           <h2>Function Map</h2>
@@ -38,7 +43,6 @@
       </section>
 
       <section class="panel editor-panel">
-        <div id="keyword-hints" class="keyword-hints"></div>
         <textarea id="coding-space" spellcheck="false" placeholder="Type Endless code here..."></textarea>
         <div class="status-row">
           <div id="result" class="status-card">Result: waiting</div>
@@ -50,6 +54,22 @@
         </div>
       </section>
     </main>
+
+    <section id="info-view" class="page-view docs-view" role="tabpanel" aria-labelledby="show-info" hidden>
+      <div class="docs-layout">
+        <article class="panel docs-card">
+          <h2>How To Use It</h2>
+          <p>Use the Lab tab to type either a plain expression like <code>1+1</code> or a small Endless program. The runner updates the result, output box, and function map as you type.</p>
+          <p><code>hero</code> chooses the starting spell. Each <code>spell</code> becomes a node, and every <code>warp</code> becomes a link in the map.</p>
+        </article>
+
+        <article class="panel docs-card">
+          <h2>Language Notes</h2>
+          <p>The basics stay here so the editor can stay clean.</p>
+          <div id="docs-keywords" class="keyword-list"></div>
+        </article>
+      </div>
+    </section>
   </div>
 
   <script src="data.js"></script>
