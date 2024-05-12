@@ -1,82 +1,86 @@
 :root {
-  --bg-top: #fff7fb;
-  --bg-bottom: #ffe6ef;
-  --surface: rgba(255, 252, 254, 0.92);
-  --surface-soft: #fff3f8;
-  --surface-strong: #fff8fb;
-  --surface-border: rgba(231, 188, 203, 0.9);
-  --surface-border-strong: #d58aa5;
-  --text: #5c4050;
-  --muted: #8b6a77;
-  --heading: #7e4f62;
-  --subheading: #845467;
-  --button-text: #5b3545;
-  --button-bg: linear-gradient(180deg, #f7c2d4 0%, #eaa0b8 100%);
-  --button-bg-hover: linear-gradient(180deg, #f9ccdc 0%, #efa9c0 100%);
-  --button-shadow: 0 8px 18px rgba(211, 126, 157, 0.2);
-  --theme-button-bg: linear-gradient(180deg, #fff7fb 0%, #f6dce6 100%);
-  --tree-bg:
-    radial-gradient(circle at top right, rgba(248, 219, 230, 0.7), transparent 26%),
-    linear-gradient(180deg, #fffdfd 0%, #fff3f8 100%);
-  --code-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 251, 0.96));
-  --code-text: #583e4c;
-  --code-placeholder: #b28b99;
-  --code-border: rgba(213, 138, 165, 0.52);
-  --output-bg: linear-gradient(180deg, rgba(255, 253, 253, 0.96), rgba(255, 244, 248, 0.98));
-  --output-text: #8d5270;
-  --panel-shadow: 0 16px 34px rgba(187, 110, 140, 0.16);
-  --moon-bg: linear-gradient(180deg, #f7ccd8 0%, #e39bb4 100%);
+  --bg-top: #cdb07a;
+  --bg-bottom: #8b6736;
+  --surface: rgba(239, 229, 198, 0.94);
+  --surface-soft: #efe0b6;
+  --surface-strong: #f7ebc9;
+  --surface-border: rgba(121, 88, 31, 0.9);
+  --surface-border-strong: #ca9b3a;
+  --text: #3f2e16;
+  --muted: #6a5530;
+  --heading: #5a3f18;
+  --subheading: #6f5727;
+  --button-text: #2c200d;
+  --button-bg: linear-gradient(180deg, #e2c46e 0%, #b7862c 100%);
+  --button-bg-hover: linear-gradient(180deg, #edcf79 0%, #c49233 100%);
+  --button-shadow: 0 9px 20px rgba(78, 53, 14, 0.18);
+  --button-shadow-hover: 0 12px 24px rgba(78, 53, 14, 0.24);
+  --theme-button-bg: linear-gradient(180deg, #f4e8c4 0%, #d0ae66 100%);
+  --tree-bg: linear-gradient(180deg, #f1e5c4 0%, #d4bc89 100%);
+  --code-bg: linear-gradient(180deg, #24314b 0%, #182236 100%);
+  --code-text: #f4e1a1;
+  --code-placeholder: #c7b27f;
+  --code-border: #81642d;
+  --output-bg: linear-gradient(180deg, rgba(39, 52, 79, 0.96), rgba(24, 33, 51, 0.98));
+  --output-text: #f2deab;
+  --panel-shadow: 0 16px 34px rgba(52, 34, 11, 0.22);
+  --panel-inset: inset 0 1px 0 rgba(255, 250, 233, 0.42);
+  --focus-ring: rgba(202, 155, 58, 0.26);
+  --moon-bg: linear-gradient(180deg, #ffe37c 0%, #e2b447 58%, #a87718 100%);
+  --moon-cutout: #efe4c2;
   --moon-shadow:
-    inset -7px -7px 0 rgba(255, 255, 255, 0.4),
-    0 10px 20px rgba(211, 126, 157, 0.24);
-  --node-border: #d27d99;
-  --node-bg: #fff8fb;
-  --node-highlight-border: #c35b82;
-  --node-highlight-bg: #ffe8f0;
-  --node-text: #6e4958;
-  --edge-color: #cc8ba2;
-  --font-ui: "Segoe UI", "Trebuchet MS", sans-serif;
-  --font-display: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    inset -7px -7px 0 rgba(255, 248, 214, 0.4),
+    0 12px 22px rgba(113, 81, 21, 0.3);
+  --node-border: #8a6425;
+  --node-bg: #f7ebc8;
+  --node-highlight-border: #ca9b3a;
+  --node-highlight-bg: #fff3c7;
+  --node-text: #4e3919;
+  --edge-color: #8c6c34;
+  --font-ui: Tahoma, Verdana, sans-serif;
+  --font-display: Georgia, "Palatino Linotype", serif;
   --font-code: "Cascadia Code", Consolas, monospace;
 }
 
 :root[data-theme="dark"] {
-  --bg-top: #171424;
-  --bg-bottom: #0f1220;
-  --surface: rgba(27, 24, 39, 0.92);
-  --surface-soft: #241d35;
-  --surface-strong: #2a223d;
-  --surface-border: rgba(79, 59, 99, 0.95);
-  --surface-border-strong: #d38fb0;
-  --text: #f5deeb;
-  --muted: #c4a6b8;
-  --heading: #f0c7d8;
-  --subheading: #ddb1c4;
-  --button-text: #3f2530;
-  --button-bg: linear-gradient(180deg, #f7c2d4 0%, #eaa0b8 100%);
-  --button-bg-hover: linear-gradient(180deg, #f9ccdc 0%, #efa9c0 100%);
-  --button-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
-  --theme-button-bg: linear-gradient(180deg, #f7dbe7 0%, #e4b4c8 100%);
-  --tree-bg:
-    radial-gradient(circle at top right, rgba(90, 57, 89, 0.45), transparent 26%),
-    linear-gradient(180deg, #221a31 0%, #181322 100%);
+  --bg-top: #10172a;
+  --bg-bottom: #08101c;
+  --surface: rgba(17, 26, 45, 0.94);
+  --surface-soft: #1b2944;
+  --surface-strong: #223455;
+  --surface-border: rgba(129, 98, 42, 0.95);
+  --surface-border-strong: #d2a64a;
+  --text: #efe4c0;
+  --muted: #ccb98c;
+  --heading: #f2db92;
+  --subheading: #ddc171;
+  --button-text: #32240d;
+  --button-bg: linear-gradient(180deg, #e2c46e 0%, #b7862c 100%);
+  --button-bg-hover: linear-gradient(180deg, #f0d57f 0%, #ca9939 100%);
+  --button-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+  --button-shadow-hover: 0 14px 26px rgba(0, 0, 0, 0.38);
+  --theme-button-bg: linear-gradient(180deg, #f5e2a9 0%, #cf9f35 100%);
+  --tree-bg: linear-gradient(180deg, #18243e 0%, #0c1527 100%);
   --code-bg: #050507;
-  --code-text: #f3a1c4;
+  --code-text: #f4a9c4;
   --code-placeholder: #9d6b86;
-  --code-border: #6e4460;
-  --output-bg: linear-gradient(180deg, #1f182c 0%, #17111f 100%);
-  --output-text: #f1c4d8;
-  --panel-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
-  --moon-bg: linear-gradient(180deg, #ffe4ef 0%, #e5abc4 100%);
+  --code-border: #8a6c33;
+  --output-bg: linear-gradient(180deg, #16213a 0%, #0d1527 100%);
+  --output-text: #f2deaa;
+  --panel-shadow: 0 16px 34px rgba(0, 0, 0, 0.4);
+  --panel-inset: inset 0 1px 0 rgba(255, 246, 220, 0.08);
+  --focus-ring: rgba(210, 166, 74, 0.32);
+  --moon-bg: linear-gradient(180deg, #ffe790 0%, #f0c54d 55%, #bb8418 100%);
+  --moon-cutout: #15203a;
   --moon-shadow:
-    inset -7px -7px 0 rgba(255, 255, 255, 0.32),
-    0 12px 22px rgba(0, 0, 0, 0.28);
-  --node-border: #d894b1;
-  --node-bg: #2d2340;
-  --node-highlight-border: #f2bdd2;
-  --node-highlight-bg: #3c2d55;
-  --node-text: #fde8f0;
-  --edge-color: #ca8fad;
+    inset -7px -7px 0 rgba(255, 248, 214, 0.22),
+    0 12px 24px rgba(0, 0, 0, 0.36);
+  --node-border: #cda44a;
+  --node-bg: #1e2b48;
+  --node-highlight-border: #f0d27b;
+  --node-highlight-bg: #26375b;
+  --node-text: #f7ecc8;
+  --edge-color: #c9a453;
 }
 
 * {
@@ -100,7 +104,7 @@ body {
 .panel {
   background: var(--surface);
   border: 1px solid var(--surface-border);
-  box-shadow: var(--panel-shadow);
+  box-shadow: var(--panel-shadow), var(--panel-inset);
 }
 
 .topbar {
@@ -109,7 +113,7 @@ body {
   align-items: flex-start;
   gap: 18px;
   padding: 22px 24px;
-  border-radius: 22px;
+  border-radius: 18px;
 }
 
 .brand-block,
@@ -140,6 +144,7 @@ body {
   height: 54px;
   flex: 0 0 auto;
   border-radius: 50%;
+  border: 2px solid var(--surface-border-strong);
   background: var(--moon-bg);
   box-shadow: var(--moon-shadow);
 }
@@ -151,7 +156,7 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--surface);
+  background: var(--moon-cutout);
 }
 
 .topbar h1,
@@ -165,7 +170,8 @@ body {
   margin: 0 0 10px;
   color: var(--heading);
   font-size: 2rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 0 rgba(255, 248, 222, 0.2);
 }
 
 .panel-heading h2,
@@ -206,7 +212,7 @@ button {
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 22px rgba(211, 126, 157, 0.24);
+  box-shadow: var(--button-shadow-hover);
   background: var(--button-bg-hover);
 }
 
@@ -259,7 +265,7 @@ button:focus-visible {
 
 .panel {
   padding: 18px;
-  border-radius: 20px;
+  border-radius: 16px;
 }
 
 #tree,
@@ -267,7 +273,7 @@ button:focus-visible {
 #coding-space,
 .status-card,
 #output-log {
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 #tree,
@@ -284,6 +290,7 @@ button:focus-visible {
   margin-top: 14px;
   background: var(--tree-bg);
   overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 248, 214, 0.18);
 }
 
 #tree.fallback-map {
@@ -344,7 +351,7 @@ button:focus-visible {
 }
 
 #coding-space:focus {
-  outline: 2px solid rgba(211, 126, 157, 0.22);
+  outline: 2px solid var(--focus-ring);
   border-color: var(--surface-border-strong);
 }
 
